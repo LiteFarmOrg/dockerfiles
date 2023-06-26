@@ -1,4 +1,4 @@
-FROM node:16.15.0
+FROM node:18.16.1
 
 # zip
 RUN apt-get update && apt-get install -y zip && rm -rf /var/lib/apt/lists/*

@@ -16,7 +16,7 @@ while read -r change; do
 		if [[ "${change}" =~ Dockerfile$ ]]; then
 			image=$(awk -F '/' '{print $1}' <<<"${change}")
 			cd "${image}"
-            docker run --rm -i hadolint/hadolint:latest-alpine hadolint - < Dockerfile
+			docker run --rm -i hadolint/hadolint:latest-alpine hadolint - <Dockerfile
 			docker build -t "${NAMESPACE}/${image}:${TAG}" .
 			docker push "${NAMESPACE}/${image}:${TAG}"
 		fi

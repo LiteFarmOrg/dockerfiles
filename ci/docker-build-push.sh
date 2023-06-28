@@ -15,7 +15,7 @@ while read -r change; do
 			image=$(awk -F '/' '{print $1}' <<<"${change}")
 			cd "${image}"
 			docker build -t "${NAMESPACE}/${image}:${TAG}" .
-#			docker push "${NAMESPACE}/${image}:${TAG}"
+			docker push "${NAMESPACE}/${image}:${TAG}"
 		fi
 	)
 done <<<"${CHANGED_FILES}"

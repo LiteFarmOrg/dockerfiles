@@ -7,8 +7,9 @@ CHANGED_FILES=$(git show --oneline --name-only "${CI_COMMIT}")
 NAMESPACE="litefarm"
 PREFIX=$(date +%Y%m%d.%H%M%S)
 TAG="${PREFIX}.${CI_COMMIT:0:7}"
+HADOLINT="hadolint/hadolint:v2.12.0-alpine"
 
-docker pull hadolint/hadolint:latest-alpine
+docker pull "${HADOLINT}"
 
 while read -r change; do
 	(
@@ -16,7 +17,7 @@ while read -r change; do
 		if [[ "${change}" =~ Dockerfile$ ]]; then
 			image=$(awk -F '/' '{print $1}' <<<"${change}")
 			cd "${image}"
-			docker run --rm -i hadolint/hadolint:latest-alpine hadolint - <Dockerfile
+			docker run --rm -i "${HADOLINT}" hadolint - <Dockerfile
 			docker build -t "${NAMESPACE}/${image}:${TAG}" .
 			docker push "${NAMESPACE}/${image}:${TAG}"
 		fi
